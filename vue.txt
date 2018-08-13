@@ -1,0 +1,12 @@
+vue环境搭建：
+npm install vue-cli -g
+
+vue-init webpack appfront
+
+install vue-router Y
+
+cd appfront
+
+npm run dev
+npm run build
+
