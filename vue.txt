@@ -10,3 +10,18 @@ cd appfront
 npm run dev
 npm run build
 
+local:
+git init
+vim README.md
+git status
+git add .
+git commit -m 'init myproject'
+
+github:
+create repository myproject
+
+local:
+git remote add origin git@github.com:michaelliao/learngit.git
+git push -u origin master
+
+git push
