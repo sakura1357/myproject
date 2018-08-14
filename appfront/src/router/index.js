@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Library from '@/components/library/Library'
-import Base from '@/components/Base'
+import basic from '@/components/basic'
 import Home from '@/components/home/Home'
 
 Vue.use(Router)
@@ -20,9 +20,9 @@ export default new Router({
       component: Library
     },
     {
-      path: '/base',
-      name: 'Base',
-      component: Base,
+      path: '/',
+      name: 'basic',
+      component: basic,
       children: [
         {
           path: 'home',
