@@ -1,64 +1,7 @@
 <template>
-	<div id="basic">
-<!--     <div class="blog-masthead">
-      <div class="container">
-        <nav class="blog-nav">
-          <a class="blog-nav-item active" href="#">首页</a>
-          <a class="blog-nav-item" href="#">博客</a>
-          <a class="blog-nav-item" href="#">关于</a>
-          <a class="blog-nav-item" href="#">联系</a>
-        </nav>
-      </div>
-    </div> -->
-    	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="">Logo</a>
-				<button class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-					<span class="icon-bar"></span>
-        			<span class="icon-bar"></span>
-        			<span class="icon-bar"></span>
-				</button>
-			</div>
-			<div id="navbar-collapse" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li class="">
-						<a href="">首页</a>
-					</li>
-					<li class="">
-						<a href="">博客</a>
-					</li>					
-					<li class="">
-						<a href="">关于</a>
-					</li>					
-					<li class="">
-						<a href="">联系</a>
-					</li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<li>
-						<a href="">登录</a>
-					</li>
-					<li>
-						<a href="">注册</a>
-					</li>
-					<li>
-						<form class="navbar-form navbar-left">
-							<div class="form-group">
-								<input type="text" class="form-control" placeholder="Search">
-							</div>
-							<button type="submit" class="btn btn-default">搜索</button>
-						</form>
-					</li>
-				</ul>
-			</div>
-
-		</div>	
-	</div>
-
-    <div class="container">
-
-      <div class="row">
+	<div id="home">
+		<p>{{ msg }}</p>
+		      <div class="row">
 
         <div class="col-sm-8 blog-main">
 
@@ -149,134 +92,20 @@
         </div><!-- /.blog-sidebar -->
 
       </div><!-- /.row -->
-
-    </div><!-- /.container -->
-
-    <footer class="blog-footer">
-    	<p class="copyright">&copy 2018 - 采集自 <a href="https://v3.bootcss.com/examples/blog/"
-    		target="_blank" title="模板之家">Boostrap</a>
-    		- 由 Siar 修改
-    	</p>
-    </footer>
-</div>
 	</div>
 </template>
 <script type="text/javascript">
 	export default {
-		name: '',
+		name: 'home',
 		data(){
-			return{
-				msg: '我是basic组件'
+			return {
+				msg: "我是home组件"
 			}
-		},
-		created(){
-
-		},
-		mounted(){
-
 		}
 	}
 </script>
 <style scoped>
-/*	.container {
-		margin-top: 4em;
-	}*/
-/*
- * Globals
- */
-
-body {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  color: #555;
-}
-
-h1, .h1,
-h2, .h2,
-h3, .h3,
-h4, .h4,
-h5, .h5,
-h6, .h6 {
-  margin-top: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: normal;
-  color: #333;
-}
-
-
-/*
- * Override Bootstrap's default container.
- */
-
-@media (min-width: 1200px) {
-  .container {
-    width: 970px;
-  }
-}
-
-
-/*
- * Masthead for nav
- */
-
-.blog-masthead {
-  background-color: #428bca;
-  -webkit-box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
-          box-shadow: inset 0 -2px 5px rgba(0,0,0,.1);
-}
-
-/* Nav links */
-.blog-nav-item {
-  position: relative;
-  display: inline-block;
-  padding: 10px;
-  font-weight: 500;
-  color: #cdddeb;
-}
-.blog-nav-item:hover,
-.blog-nav-item:focus {
-  color: #fff;
-  text-decoration: none;
-}
-
-/* Active state gets a caret at the bottom */
-.blog-nav .active {
-  color: #fff;
-}
-.blog-nav .active:after {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 0;
-  margin-left: -5px;
-  vertical-align: middle;
-  content: " ";
-  border-right: 5px solid transparent;
-  border-bottom: 5px solid;
-  border-left: 5px solid transparent;
-}
-
-
-.container {
-	margin-top: 6em;
-}
-
-/*
- * Blog name and description
- */
-
-.blog-title {
-  margin-top: 30px;
-  margin-bottom: 0;
-  font-size: 60px;
-  font-weight: normal;
-}
-.blog-description {
-  font-size: 20px;
-  color: #999;
-}
-
-
+	
 /*
  * Main column and sidebar layout
  */
@@ -315,6 +144,20 @@ h6, .h6 {
   border-radius: 30px;
 }
 
+/*
+ * Blog name and description
+ */
+
+.blog-title {
+  margin-top: 30px;
+  margin-bottom: 0;
+  font-size: 60px;
+  font-weight: normal;
+}
+.blog-description {
+  font-size: 20px;
+  color: #999;
+}
 
 /*
  * Blog posts
@@ -332,22 +175,4 @@ h6, .h6 {
   color: #999;
 }
 
-
-/*
- * Footer
- */
-
-.blog-footer {
-  padding: 40px 0;
-  color: #999;
-  text-align: center;
-  background-color: #f9f9f9;
-  border-top: 1px solid #e5e5e5;
-}
-.blog-footer p:last-child {
-  margin-bottom: 0;
-}
-
-
 </style>
-

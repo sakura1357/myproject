@@ -13,8 +13,6 @@
 		name: 'library',
 		data () {
 			return {
-				book_name: '',
-				author: '',
 				books: []
 			}
 		},
