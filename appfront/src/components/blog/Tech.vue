@@ -1,6 +1,6 @@
 <template>
-	<div id="home">
-    <h1>首页</h1>
+	<div id="tech">
+    <h1>技术杂谈</h1>
 		  <div class="row">
         <ul v-for="blog in blogList">
           <li>标题：{{ blog.fields.title }}</li>
@@ -15,14 +15,14 @@
 </template>
 <script type="text/javascript">
 	export default {
-		name: 'home',
+		name: 'Tech',
 		data(){
       return {
         blogList: []
       }
     },
     created(){
-      this.$ajax.get('http://127.0.0.1:8000/blog/show_blogs/')
+      this.$ajax.get('http://127.0.0.1:8000/blog/show_blogs/?blog_mark=Tech')
       .then(response=>{
         var res = response.data
         this.blogList = res['list']

@@ -1,10 +1,12 @@
 import json
+import logging
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.core import serializers
 from django.views.decorators.http import require_http_methods
-from .models import Blog
+from .models import Blog, BlogMark
 
+logger = logging.getLogger('django')
 # Create your views here.
 @require_http_methods(['GET'])
 def add_blog(request):
@@ -35,7 +37,11 @@ def show_blogs(request):
 
 	response = {}
 	try:
-		blogList = Blog.objects.all()
+		if request.GET.get('blog_mark'):
+			mark_name = request.GET.get('blog_mark')
+			blogList = Blog.objects.filter(blog_mark__mark_name = mark_name)
+		else:
+			blogList = Blog.objects.all()
 		response['list'] = json.loads(serializers.serialize('json', blogList))
 		response['msg'] = 'SUCCESS'
 		response['error_num'] = 0
@@ -44,6 +50,7 @@ def show_blogs(request):
 		response['error_num'] = 1
 
 	return JsonResponse(response)
+
 
 
 

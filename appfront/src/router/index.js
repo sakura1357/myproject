@@ -7,7 +7,8 @@ import About from '@/components/base/About'
 import Login from '@/components/user/Login'
 import Register from '@/components/user/Register'
 import Home from '@/components/home/Home'
-import BlogList from '@/components/blog/BlogList'
+import Tech from '@/components/blog/Tech'
+import Life from '@/components/blog/Life'
 
 Vue.use(Router)
 
@@ -30,9 +31,14 @@ export default new Router({
           component: Home
         },
         {
-          path: 'bloglist',
-          name: 'bloglist',
-          component: BlogList
+          path: 'tech',
+          name: 'tech',
+          component: Tech
+        },
+        {
+          path: 'life',
+          name: 'life',
+          component: Life
         },
         {
           path: 'about',

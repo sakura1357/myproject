@@ -16,13 +16,14 @@
 						<router-link to="/home">首页</router-link>
 					</li>
 					<li class="">
-						<router-link to="/bloglist">博客</router-link>
+						<router-link to="/tech">技术杂谈</router-link>
+					</li>					
+					<li class="">
+						<router-link to="/life">随心而记</router-link>
 					</li>					
 					<li class="">
 						<router-link to="/about">关于</router-link>
-					</li>					
-					<li class="">
-						<a href="">联系</a>
+
 					</li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
