@@ -1,6 +1,7 @@
 <template>
 	<div id="basic">
-    	<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    	<!-- <div class="navbar navbar-default navbar-fixed-top" role="navigation"> -->
+    	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<a class="navbar-brand" href="">Logo</a>
@@ -45,13 +46,14 @@
 			</div>
 
 		</div>	
-	</div>
+	</nav>
+	<!-- </div> -->
 
 	<div class="container">
 		<router-view/>
 	</div><!-- /.container -->
 	
-    <footer class="blog-footer">
+    <footer class="blog-footer navbar-fixed-bottom">
     	<p class="copyright">&copy 2018 - 采集自 <a href="https://v3.bootcss.com/examples/blog/"
     		target="_blank" title="模板之家">Boostrap</a>
     		- 由 Siar 修改
@@ -78,41 +80,9 @@
 </script>
 <style scoped>
 
-/*
- * Globals
- */
-
-body {
-  font-family: Georgia, "Times New Roman", Times, serif;
-  color: #555;
-}
-
-h1, .h1,
-h2, .h2,
-h3, .h3,
-h4, .h4,
-h5, .h5,
-h6, .h6 {
-  margin-top: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-weight: normal;
-  color: #333;
-}
-
-
-/*
- * Override Bootstrap's default container.
- */
-
-@media (min-width: 1200px) {
-  .container {
-    width: 970px;
-  }
-}
-
-
 .container {
 	margin-top: 6em;
+	margin-bottom: 3em;
 }
 
 /*
@@ -120,7 +90,7 @@ h6, .h6 {
  */
 
 .blog-footer {
-  padding: 40px 0;
+  padding: 25px 0;
   color: #999;
   text-align: center;
   background-color: #f9f9f9;

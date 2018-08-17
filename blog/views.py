@@ -42,8 +42,11 @@ def show_blogs(request):
 			blogList = Blog.objects.filter(blog_mark__mark_name = mark_name)
 		else:
 			blogList = Blog.objects.all()
+		# if request.GET.get('')
+
 		response['list'] = json.loads(serializers.serialize('json', blogList))
 		response['msg'] = 'SUCCESS'
+		response['total_count'] = len(blogList)
 		response['error_num'] = 0
 	except Exception as e:
 		response['msg'] = str(e)
