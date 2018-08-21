@@ -1,10 +1,12 @@
 import json
+import math
 import logging
 from django.shortcuts import render
 from django.http import JsonResponse
 from django.core import serializers
+from django.conf import  settings
 from django.views.decorators.http import require_http_methods
-from .models import Blog, BlogMark
+from .models import Blog
 
 logger = logging.getLogger('django')
 # Create your views here.
@@ -37,9 +39,14 @@ def show_blogs(request):
 
 	response = {}
 	try:
+		# 获取当前请求的是第几页，如果没获取到，则设置为第1页
+		current_page_number = request.GET.get('cPage', 1)
+		# 如果是技术杂谈或者随心而记，则返回分页后的分类数据
 		if request.GET.get('blog_mark'):
 			mark_name = request.GET.get('blog_mark')
 			blogList = Blog.objects.filter(blog_mark__mark_name = mark_name)
+
+		# 否则则是home页面，返回分页后的所有数据
 		else:
 			blogList = Blog.objects.all()
 		# if request.GET.get('')
@@ -47,6 +54,37 @@ def show_blogs(request):
 		response['list'] = json.loads(serializers.serialize('json', blogList))
 		response['msg'] = 'SUCCESS'
 		response['total_count'] = len(blogList)
+		response['error_num'] = 0
+	except Exception as e:
+		response['msg'] = str(e)
+		response['error_num'] = 1
+
+	return JsonResponse(response)
+
+
+@require_http_methods(['GET'])
+def show_blogs_pages(request):
+	response = {}
+	try:
+		# 首页|技术杂谈|随心而记 判断
+		if request.GET.get('blog_mark'):
+			mark_name = request.GET.get('blog_mark')
+			blogList = Blog.objects.filter(blog_mark__mark_name = mark_name)
+		else:
+			blogList = Blog.objects.all()
+			
+		# 总页数，向上取整
+		blog_pages = math.ceil((blogList.count())/settings.EACH_PAGE_BLOGS_NUMBER)
+
+		# 如果没有获取到请求的页数，则返回第1页的数据
+		current_page_number = int(request.GET.get('cPage', 1))
+		start = (current_page_number - 1) * settings.EACH_PAGE_BLOGS_NUMBER
+		end = current_page_number * settings.EACH_PAGE_BLOGS_NUMBER
+		if end > blogList.count():
+			end	= blogList.count()
+		response['list'] = json.loads(serializers.serialize('json', blogList[start:end]))
+		response['blog_pages'] = blog_pages
+		response['msg'] = 'SUCCESS'
 		response['error_num'] = 0
 	except Exception as e:
 		response['msg'] = str(e)

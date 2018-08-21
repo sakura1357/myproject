@@ -7,13 +7,13 @@
       <ul class="pagination">
         <li :class="currentPage==1?'disabled':''"><a href="javascript:;" @click="turnToPage(1)">首页</a></li>
         <li :class="currentPage==1?'disabled':''"><a @click="turnToPage(currentPage-1)" href="javascript:;">上一页</a></li>
-        <!-- <li><a href="javascript:;" @click="turnToPage(currentPage-3)" v-text="currentPage-3" v-if="currentPage-3>0"></a></li> -->
+        <li><a href="javascript:;" @click="turnToPage(currentPage-3)" v-text="currentPage-3" v-if="currentPage-3>0"></a></li>
         <li><a href="javascript:;" @click="turnToPage(currentPage-2)" v-text="currentPage-2" v-if="currentPage-2>0"></a></li>
         <li><a href="javascript:;" @click="turnToPage(currentPage-1)" v-text="currentPage-1" v-if="currentPage-1>0"></a></li>
         <li class="active"><a href="javascript:;" @click="turnToPage(currentPage)" v-text="currentPage">3</a></li>
         <li><a href="javascript:;" @click="turnToPage(currentPage+1)" v-text="currentPage+1" v-if="currentPage+1<totalPage"></a></li>
         <li><a href="javascript:;" @click="turnToPage(currentPage+2)" v-text="currentPage+2" v-if="currentPage+2<totalPage"></a></li>
-        <!-- <li><a href="javascript:;" @click="turnToPage(currentPage+3)" v-text="currentPage+3" v-if="currentPage+3<totalPage"></a></li> -->
+        <li><a href="javascript:;" @click="turnToPage(currentPage+3)" v-text="currentPage+3" v-if="currentPage+3<totalPage"></a></li>
         <li :class="currentPage==totalPage?'disabled':''"><a href="javascript:;" @click="turnToPage(currentPage+1)" >下一页</a></li>
         <li :class="currentPage==totalPage?'disabled':''"><a href="javascript:;" @click="turnToPage(totalPage)">尾页</a></li>
        </ul>
@@ -28,80 +28,81 @@
 
 <script type="text/javascript">
 export default {
-	props: {
+    props: {
         //传入总页数，默认100
-		totalPage: {
-			type: Number,
-      		default: 1,
-      		required: true,
-		    validator(value) {
-		        return value >= 0
-		    }
-		}, 
+        totalPage: {
+            type: Number,
+            default: 1,
+            required: true,
+            validator(value) {
+                return value >= 0
+            }
+        }, 
 
         //传入当前页，默认1
-		currentPage:{
-			type: Number,
-      		default: 1,
-		    validator(value) {
-		        return value >= 0
-		    }
-		},
+        parentCurrentpage:{
+            type: Number,
+            default: 1,
+            validator(value) {
+                return value >= 0
+            }
+        },
 
         //传入页面改变时的回调，用于更新你的数据
         //回调默认是打印当前页
         //请根据需要在传入的回调函数里更改函数体
-		changeCallback: {
-	    	type: Function,
-	    	default(cPage) {
-				console.log("默认回调，显示页码：" + cPage);
-	        }
-	     }
-	},
-	data(){
-		return {
-			myCurrentPage : 1,
-            isPageNumberError: false
-		}
-	},
-	computed:{
-		// prop不应该在组件内部做改变
-		// 所以我们这里设置一个内部计算属性myCurrentPage来代替props中的currentPage
-		// 为什么要这么做？参考：https://cn.vuejs.org/v2/guide/components.html#单向数据流
-		currentPage(){ 
-			return this.myCurrentPage;
-		}
-	},
-	methods:{
-		//turnToPage为跳转到某页
-		//传入参数pageNum为要跳转的页数
-		turnToPage( pageNum ){
-			var ts = this;
-			var pageNum = parseInt(pageNum);
+        changeCallback: {
+            type: Function,
+            default(cPage) {
+                console.log("默认回调，显示页码：" + cPage);
+            }
+         }
+    },
+    data(){
+        return {
+            myCurrentPage : 1,
+            isPageNumberError: false,
+            goToPage: 1
+        }
+    },
+    computed:{
+        // prop不应该在组件内部做改变
+        // 所以我们这里设置一个内部计算属性myCurrentPage来代替props中的currentPage
+        // 为什么要这么做？参考：https://cn.vuejs.org/v2/guide/components.html#单向数据流
+        currentPage(){ 
+            return this.myCurrentPage;
+        }
+    },
+    methods:{
+        //turnToPage为跳转到某页
+        //传入参数pageNum为要跳转的页数
+        turnToPage( pageNum ){
+            var ts = this;
+            var pageNum = parseInt(pageNum);
 
-			//页数不合法则退出
-			if (!pageNum || pageNum > ts.totalPage || pageNum < 1) {
-				console.log('页码输入有误！');
+            //页数不合法则退出
+            if (!pageNum || pageNum > ts.totalPage || pageNum < 1) {
+                console.log('页码输入有误！');
                 ts.isPageNumberError = true;
-				return false;		
-			}else{
+                return false;       
+            }else{
                 ts.isPageNumberError = false;
             }
 
-			//更新当前页
-			ts.myCurrentPage = pageNum;
+            //更新当前页
+            ts.myCurrentPage = pageNum;
 
-			//页数变化时的回调
-			ts.changeCallback(pageNum); 
-		}
-	}
+            //页数变化时的回调
+            ts.changeCallback(pageNum); 
+        }
+    }
 }
 </script>
 
 <style type="text/css">
 .pagination-wrap{
-	margin: 0 auto;
-	text-align: center;
+    margin: 0 auto;
+    text-align: center;
 }
 .pagination {
     display: inline-block;
@@ -140,7 +141,7 @@ export default {
     vertical-align: middle;
 }
 .input-group-addon, .input-group-btn, .input-group .form-control {
-	box-sizing: border-box;
+    box-sizing: border-box;
     display: table-cell;
 }
 .input-group .form-control:first-child, .input-group-addon:first-child, .input-group-btn:first-child>.btn, .input-group-btn:first-child>.btn-group>.btn, .input-group-btn:first-child>.dropdown-toggle, .input-group-btn:last-child>.btn:not(:last-child):not(.dropdown-toggle), .input-group-btn:last-child>.btn-group:not(:last-child)>.btn {
@@ -193,8 +194,8 @@ export default {
     position: relative;
 }
 .input-group-addon:last-child {
-	display: table-cell;
-	text-decoration: none;
+    display: table-cell;
+    text-decoration: none;
     border-left: 0;
 }
 .pagination>.disabled>span, .pagination>.disabled>span:hover, .pagination>.disabled>span:focus, .pagination>.disabled>a, .pagination>.disabled>a:hover, .pagination>.disabled>a:focus {

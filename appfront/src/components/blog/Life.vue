@@ -1,37 +1,84 @@
 <template>
 	<div id="life">
-    <h1>随心而记</h1>
-		  <div class="row">
-        <ul v-for="blog in blogList">
-          <li>标题：{{ blog.fields.title }}</li>
-          <li>作者：{{ blog.fields.author }}</li>
-          <li>类型：{{ blog.fields.blog_type }}</li>
-          <li v-html='"摘要：" + blog.fields.excerpt'></li>
-          <li>创建时间：{{ blog.fields.created_time }}</li>
-          <li>最后更新时间：{{ blog.fields.last_updated_time }}</li>
-        </ul>
-      </div><!-- /.row -->
+		   <div class="row">
+        <div class="col-xs-12 col-sm-8 col-md-9 col-lg-11">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            随心而记
+          </div>
+          <div class="panel-body">
+            <div class="blog" v-for="blog in blogList">
+                  <h3><a href="">{{ blog.fields.title }}</a></h3>
+                 <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
+                 <a href="">{{ blog.fields.blog_type }}</a>&nbsp;
+                  <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
+                  {{ blog.fields.last_updated_time}}<br>
+                  <p v-html='blog.fields.excerpt'></p>
+            </div>
+<!--             <div class="blog">
+              <h3>--暂无博客，敬请期待--</h3>
+            </div> -->
+            <pagination 
+              :totalPage="parentTotalPage" 
+              :parentCurrentpage="parentCurrentpage" 
+              :changeCallback="parentCallback">
+            </pagination>
+          </div>
+        </div>
+      </div>
+      </div>
 	</div>
 </template>
 <script type="text/javascript">
-	export default {
-		name: 'Life',
-		data(){
-      return {
-        blogList: []
-      }
-    },
-    created(){
-      this.$ajax.get('http://127.0.0.1:8000/blog/show_blogs/?blog_mark=Life')
-      .then(response=>{
-        var res = response.data
-        this.blogList = res['list']
+import pagination from '../base/pagination'
+    export default {
+      name: 'Life',
+      components: {
+        pagination
+      },
+      data () {
+        return {
+          blogList : [],
+          //在data中初始化总页数totalPage，和当前页currentPage
+          parentTotalPage: 20,
+          parentCurrentpage: 1
+        };
+      },
+      created(){
+        this.$ajax.get('http://127.0.0.1:8000/blog/show_blogs_pages/?blog_mark=Life')
+        .then(response=>{
+          var res = response.data;
+          this.blogList = res['list'];
+          this.parentTotalPage = res['blog_pages'];
         })
-      .catch(error=>{
+        .catch(error=>{
 
-      })
+        });
+      },
+      methods : {
+        getBlogPageList(cPage){
+          this.$ajax.get('http://127.0.0.1:8000/blog/show_blogs_pages/?cPage=' + cPage)
+          .then(response=>{
+            var res = response.data;
+            this.blogList = res['list'];
+          })
+          .catch(error=>{
+
+          });
+        },
+        //在这里传入pagination的跳转页码回调方法
+        //cPage参数是已跳转的当前页码
+        parentCallback( cPage )  {
+            //这里是页码变化后要做的事
+            this.getBlogPageList(cPage);
+            //显示的是上一次加载的数据，点击下一页，输出的是上一页的数据，而不是你点击的下一页的数据
+            // console.log(this.blogList);
+          }
+      },
+      mounted() {
+
+      } 
     }
-  }
 </script>
 <style scoped>
 	
