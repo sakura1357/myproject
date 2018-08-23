@@ -12,6 +12,6 @@ class BlogMark(admin.ModelAdmin):
 
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
-	list_display = ('title', 'blog_type', 'blog_mark', 'author', 'created_time', 'last_updated_time')
+	list_display = ('blog_title', 'blog_type', 'blog_mark', 'author', 'created_time', 'last_updated_time')
 
 

@@ -1,6 +1,26 @@
 <template>
   <div id="blog">
-    <p>{{ msg }}</p>
+    <div class="row">
+    <div class="col-xs-10 col-xs-offset-1">
+      <h3>{{ blog.blog_title }}</h3>
+      <ul class="blog-info-description">
+        <li>作者： {{ blog.author }}</li>
+        <li>分类：<a href="">{{ blog.blog_type }}</a></li>
+        <li>发表日期： {{ blog.created_time}}</li>
+        <li>阅读()</li>
+        <li>评论()</li>
+        <li>点赞()</li>
+      </ul>
+      <div v-html='blog.blog_content' class="blog-content"></div>
+      <div class="blog-more">
+        <p>上一篇：
+          <a href="">zzz</a>
+          下一篇：
+          <a href="">zzz</a>
+        </p>
+      </div>
+    </div>
+  </div>
   </div>
 </template>
 
@@ -9,8 +29,46 @@
       name: 'Blog',
       data(){
         return {
-        	msg: '这是博客详情页面'
+          blog: []
         }
+      },
+      created(){
+        this.$ajax.get('http://127.0.0.1:8000/blog/show_blog_detail/?id=' + this.$route.params.id)
+        .then(response=>{
+          var res = response.data;
+          // console.log(res);
+          this.blog = res['blog'];
+          console.log(res);
+          // console.log(this.blog);
+        })
+        .catch(error=>{
+
+        });
+        // console.log(this.$route.params.id);
       }
   }
 </script>
+<style scoped>
+
+ul.blog-info-description {
+  list-style-type: none;
+  margin-bottom: 1em;
+}
+ul.blog-info-description li{
+  display: inline-block;
+  margin-right: 1em;
+}
+
+/**首行缩进2个字符**/
+div.blog-content {
+  /*text-indent: 2em;*/
+  margin-bottom: 2em;
+
+}
+
+div.blog-more {
+  display: inline-block;
+}
+
+
+</style>

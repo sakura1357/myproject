@@ -1,3 +1,5 @@
+import datetime
+import json
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.utils.html import strip_tags
@@ -20,11 +22,11 @@ class BlogMark(models.Model):
 # Create your models here.
 class Blog(models.Model):
 	# 标题
-	title = models.CharField(max_length = 50)
+	blog_title = models.CharField(max_length = 50)
 	# 博客类型
 	blog_type = models.CharField(max_length = 30)
 	# 博客内容
-	content = RichTextUploadingField()
+	blog_content = RichTextUploadingField()
 	# 博客摘要，用于博客列表页面显示
 	excerpt = models.CharField(max_length = 200, blank = True)
 	# 作者 
@@ -37,7 +39,7 @@ class Blog(models.Model):
 	blog_mark = models.ForeignKey(BlogMark, on_delete = models.CASCADE)
 
 	def __str__(self):
-		return self.title
+		return self.blog_title
 	# 复写父类的save方法，将博客内容的前120个字符作为摘要内容。
 	# 判断博客类型是否存在，如未存在，则存入BlogType表
 	def save(self, *args, **kwargs):
@@ -51,4 +53,20 @@ class Blog(models.Model):
 
 	class Meta:
 		ordering = ['-created_time']
+
+	def toJSON(self):
+		fields = []
+		for field in self._meta.fields:
+			# if field = 
+			fields.append(field)
+
+		d = {}
+		for attr in fields:
+			if isinstance(getattr(self, str(attr).split('.')[-1]), datetime.datetime):
+				d[str(attr).split('.')[-1]] = getattr(self, str(attr).split('.')[-1]).strftime('%Y-%m-%d %H:%M:%S')
+			elif isinstance(getattr(self, str(attr).split('.')[-1]), BlogMark):
+				pass
+			else:
+				d[str(attr).split('.')[-1]] = getattr(self, str(attr).split('.')[-1])
+		return json.dumps(d)
 

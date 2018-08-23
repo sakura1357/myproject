@@ -9,6 +9,7 @@ import Register from '@/components/user/Register'
 import Home from '@/components/home/Home'
 import Tech from '@/components/blog/Tech'
 import Life from '@/components/blog/Life'
+import Blog from '@/components/blog/Blog'
 
 Vue.use(Router)
 
@@ -54,6 +55,11 @@ export default new Router({
           path: 'register',
           name: 'register',
           component: Register
+        },
+        {
+          path: 'blog/:id',
+          name: 'blog',
+          component: Blog
         }
       ]
     }

@@ -1,14 +1,27 @@
 import json
 import math
 import logging
-from django.shortcuts import render
+import datetime
+from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse
 from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
 from django.conf import  settings
 from django.views.decorators.http import require_http_methods
 from .models import Blog
 
 logger = logging.getLogger('django')
+
+# 继承Django自带的DjangoJSONEncoder，并重写default方法，格式化datetime字段类型的数据
+# 使用参见：https://docs.djangoproject.com/en/2.0/topics/serialization/#serialization-formats-json
+class DateTimeEncoder(DjangoJSONEncoder):
+	def default(self, obj):
+		if isinstance(obj, datetime.datetime):
+			return obj.strftime('%Y-%m-%d %H:%M:%S')
+		else:
+			return super().default(obj)
+
+
 # Create your views here.
 @require_http_methods(['GET'])
 def add_blog(request):
@@ -49,9 +62,8 @@ def show_blogs(request):
 		# 否则则是home页面，返回分页后的所有数据
 		else:
 			blogList = Blog.objects.all()
-		# if request.GET.get('')
 
-		response['list'] = json.loads(serializers.serialize('json', blogList))
+		response['list'] = json.loads(serializers.serialize('json', blogList, cls = DateTimeEncoder))
 		response['msg'] = 'SUCCESS'
 		response['total_count'] = len(blogList)
 		response['error_num'] = 0
@@ -82,7 +94,8 @@ def show_blogs_pages(request):
 		end = current_page_number * settings.EACH_PAGE_BLOGS_NUMBER
 		if end > blogList.count():
 			end	= blogList.count()
-		response['list'] = json.loads(serializers.serialize('json', blogList[start:end]))
+		# response['list'] = json.loads(serializers.serialize('json', blogList[start:end]))
+		response['list'] = json.loads(serializers.serialize('json', blogList[start:end], cls = DateTimeEncoder))
 		response['blog_pages'] = blog_pages
 		response['msg'] = 'SUCCESS'
 		response['error_num'] = 0
@@ -92,6 +105,31 @@ def show_blogs_pages(request):
 
 	return JsonResponse(response)
 
+
+@require_http_methods(['GET'])
+def show_blog_detail(request):
+	response = {}
+	try:
+		if request.GET.get('id'):
+			# blog = get_object_or_404(Blog, pk = request.GET.get('id'))
+			blog = Blog.objects.get(pk = request.GET.get('id'))
+			# blog = Blog.objects.filter(pk = request.GET.get('id'))
+			# previous_blog = Blog.objects.filter(created_time__gt = blog.created_time).last()
+			# next_blog = Blog.objects.filter(created_time__lt = blog.created_time).first()
+
+			# response['blog'] = json.loads(serializers.serialize('json', blog))
+			# logger.info(blog.toJSON())
+			response['blog'] = json.loads(blog.toJSON())
+			response['msg'] = 'SUCCESS'
+			response['error_num'] = 0
+		else:
+			response['msg'] = 'ERROR'
+			response['error_num'] = 1
+	except Exception as e:
+		response['msg'] = str(e)
+		response['error_num'] = 1
+
+	return JsonResponse(response)
 
 
 

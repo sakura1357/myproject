@@ -8,7 +8,7 @@
           </div>
           <div class="panel-body">
             <div class="blog" v-for="blog in blogList">
-                  <h3><a href="">{{ blog.fields.title }}</a></h3>
+                  <h3><a href="">{{ blog.fields.blog_title }}</a></h3>
                  <span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
                  <a href="">{{ blog.fields.blog_type }}</a>&nbsp;
                   <span class="glyphicon glyphicon-time" aria-hidden="true"></span>
