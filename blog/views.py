@@ -111,15 +111,18 @@ def show_blog_detail(request):
 	response = {}
 	try:
 		if request.GET.get('id'):
-			# blog = get_object_or_404(Blog, pk = request.GET.get('id'))
-			blog = Blog.objects.get(pk = request.GET.get('id'))
-			# blog = Blog.objects.filter(pk = request.GET.get('id'))
-			# previous_blog = Blog.objects.filter(created_time__gt = blog.created_time).last()
-			# next_blog = Blog.objects.filter(created_time__lt = blog.created_time).first()
-
-			# response['blog'] = json.loads(serializers.serialize('json', blog))
-			# logger.info(blog.toJSON())
-			response['blog'] = json.loads(blog.toJSON())
+			blog = get_object_or_404(Blog, pk = request.GET.get('id'))
+			if Blog.objects.filter(created_time__gt = blog.created_time).last():
+				previous_blog = Blog.objects.filter(created_time__gt = blog.created_time).last()
+				response['previous_blog'] = json.loads(previous_blog.toJSON())
+			else:
+				response['previous_blog'] = '没有数据'
+			if Blog.objects.filter(created_time__lt = blog.created_time).first():
+				next_blog = Blog.objects.filter(created_time__lt = blog.created_time).first()
+				response['next_blog'] = json.loads(next_blog.toJSON())
+			else:
+				response['next_blog'] = '没有数据'
+			response['blog'] = json.loads(blog.toJSON())			
 			response['msg'] = 'SUCCESS'
 			response['error_num'] = 0
 		else:

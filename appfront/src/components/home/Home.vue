@@ -33,10 +33,12 @@
 </template>
 <script type="text/javascript">
   import pagination from '../base/pagination'
+  import blog from '../blog/Blog'
     export default {
       name: 'Home',
       components: {
-        pagination
+        pagination,
+        blog
       },
       data () {
         return {

@@ -10,6 +10,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 requirements.txt
+djangoproject.sql
 # Editor directories and files
 .idea
 .vscode

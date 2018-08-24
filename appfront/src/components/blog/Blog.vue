@@ -14,9 +14,21 @@
       <div v-html='blog.blog_content' class="blog-content"></div>
       <div class="blog-more">
         <p>上一篇：
-          <a href="">zzz</a>
-          下一篇：
-          <a href="">zzz</a>
+            <a 
+            :href="'#/blog/'+previous_blog.id" 
+            @click="get_previous_blog()" 
+            v-if="previous_blog.blog_title">
+            {{ previous_blog.blog_title }}
+          </a>
+            <span v-else>{{ previous_blog }}</span>
+          &nbsp;下一篇：
+            <a 
+              :href="'#/blog/'+next_blog.id" 
+              @click="get_next_blog()" 
+              v-if="next_blog.blog_title">
+            {{ next_blog.blog_title }}
+            </a>
+            <span v-else>{{ next_blog }}</span>
         </p>
       </div>
     </div>
@@ -29,22 +41,53 @@
       name: 'Blog',
       data(){
         return {
-          blog: []
+          blog: [],
+          previous_blog: [],
+          next_blog: []
         }
       },
       created(){
         this.$ajax.get('http://127.0.0.1:8000/blog/show_blog_detail/?id=' + this.$route.params.id)
         .then(response=>{
           var res = response.data;
-          // console.log(res);
           this.blog = res['blog'];
+          this.previous_blog = res['previous_blog'];
+          this.next_blog = res['next_blog'];
           console.log(res);
-          // console.log(this.blog);
         })
         .catch(error=>{
 
         });
-        // console.log(this.$route.params.id);
+      },
+      methods : {
+        get_previous_blog(){
+        this.$ajax.get('http://127.0.0.1:8000/blog/show_blog_detail/?id=' + this.previous_blog.id)
+        .then(response=>{
+          var res = response.data;
+          this.blog = res['blog'];
+          this.previous_blog = res['previous_blog'];
+          this.next_blog = res['next_blog'];
+          console.log(res);
+        })
+        .catch(error=>{
+
+        });
+
+        },
+        get_next_blog(){
+        this.$ajax.get('http://127.0.0.1:8000/blog/show_blog_detail/?id=' + this.next_blog.id)
+        .then(response=>{
+          var res = response.data;
+          this.blog = res['blog'];
+          this.previous_blog = res['previous_blog'];
+          this.next_blog = res['next_blog'];
+          console.log(res);
+        })
+        .catch(error=>{
+
+        });
+
+        }
       }
   }
 </script>

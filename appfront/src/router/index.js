@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Library from '@/components/library/Library'
 import Basic from '@/components/base/Basic'
 import About from '@/components/base/About'
 import Login from '@/components/user/Login'
@@ -15,11 +13,6 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    {
-      path: '/lib',
-      name: 'Library',
-      component: Library
-    },
     {
       path: '/',
       name: 'basic',
